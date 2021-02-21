@@ -1,0 +1,33 @@
+﻿@model userAuth.ViewModels.RegisterViewModel
+<h2>Sign Up</h2>
+<form method="post" asp-controller="Account" asp-action="Register" class="w-50">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" class="form-control"/>
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Username"></label><br />
+        <input asp-for="Username" class="form-control"/>
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" class="form-control"/>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="PasswordConfirm"></label><br />
+        <input asp-for="PasswordConfirm" class="form-control"/>
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <div>
+        <input class="btn-lg btn-block btn-primary my-2" type="submit" value="Sign up" />
+    </div>
+</form>
+<form method="get" class="w-100 h-100" asp-area="">
+    <div class="w-50 d-flex align-items-center justify-content-center align-self-center btn-group-vertical">
+        <button class="btn-lg btn-block btn-primary my-2" asp-controller="Account" asp-action="Login">Sign In</button>
+    </div>
+</form>

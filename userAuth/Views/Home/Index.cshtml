@@ -1,0 +1,69 @@
+﻿@model List<TableViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>User: @User.Identity.Name</p>
+    <form asp-controller="Home" asp-action="Delete" method="post">
+        <button type="submit" asp-action="Delete" class="btn btn-sm btn-danger "><i class="bi bi-basket-fill"></i> Delete</button>
+        <button type="submit" asp-action="Block" class="btn btn-sm btn-warning "><i class="bi bi-lock"></i> Block</button>
+        <button type="submit" asp-action="Unblock" class="btn btn-sm btn-primary "><i class="bi bi-unlock"></i> Unblock</button>
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        <input type="checkbox" id="all" /> All
+                    </th>
+                    <th>Id</th>
+                    <th>User name</th>
+                    <th>Email</th>
+                    <th>Registration date</th>
+                    <th>Last login date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(x => x[i].IsChecked, new { @class = "user" })</td>
+                        <td>@Model[i].Id</td>
+                        @Html.HiddenFor(x => x[i].Id)
+                        <td>@Model[i].UserName</td>
+                        @Html.HiddenFor(x => x[i].UserName)
+                        <td>@Model[i].Email</td>
+                        @Html.HiddenFor(x => x[i].Email)
+                        <td>@Model[i].RegTime</td>
+                        @Html.HiddenFor(x => x[i].RegTime)
+                        <td>@Model[i].LastLog</td>
+                        @Html.HiddenFor(x => x[i].LastLog)
+                        <td>@Model[i].Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>
+            $(document).ready(function () {
+                $('#all').click(function () {
+                    $('.user').prop('checked', this.checked)
+
+                });
+            });
+        </script>
+    </form>
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Выход" class="btn btn-danger"/>
+    </form>
+}
+else
+{
+    <form method="get" class="w-100 h-100" asp-area="">
+        <div class="w-50 d-flex align-items-center justify-content-center align-self-center btn-group-vertical">
+            <button class="btn-lg btn-block btn-primary my-2" asp-controller="Account" asp-action="Login">Sign In</button>
+            <button class="btn-lg btn-block btn-primary my-2" asp-controller="Account" asp-action="Register">Sign Up</button>
+        </div>
+    </form>
+}
