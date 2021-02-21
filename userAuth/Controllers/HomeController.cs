@@ -15,7 +15,8 @@ namespace userAuth.Controllers
         private readonly ILogger<HomeController> _logger;
         UserManager<User> _homeManager;
         List<TableViewModel> _table { get; set; }
-        public HomeController(ILogger<HomeController> logger, UserManager<User> homeManager)
+        public HomeController(ILogger<HomeController> logger, 
+            UserManager<User> homeManager)
         {
             _logger = logger;
             _homeManager = homeManager;
@@ -36,10 +37,14 @@ namespace userAuth.Controllers
             return View(_table);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, 
+            Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel 
+            { 
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier 
+            });
         }
 
         [HttpPost]
@@ -54,7 +59,8 @@ namespace userAuth.Controllers
             { 
                 if (el.IsChecked)
                 {
-                    User user = await _homeManager.FindByNameAsync(el.UserName);
+                    User user = 
+                        await _homeManager.FindByNameAsync(el.UserName);
                     if (user != null)
                     {
                         await _homeManager.UpdateSecurityStampAsync(user);

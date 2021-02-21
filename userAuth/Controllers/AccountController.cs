@@ -12,7 +12,8 @@ namespace userAuth.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, 
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -27,8 +28,10 @@ namespace userAuth.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Username, Blocked = false };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                User user = new User { Email = model.Email,
+                    UserName = model.Username, Blocked = false };
+                var result = 
+                    await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
@@ -70,15 +73,20 @@ namespace userAuth.Controllers
                 var user = _userManager.FindByEmailAsync(model.Email).Result;
                 if ((user == null) || (user.Blocked))
                 {
-                    ModelState.AddModelError("", "User is banned or not exists");
+                    ModelState.AddModelError("",
+                        "User is banned or not exists");
                 }
                 else
                 {
                     var result =
-                        await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                        await _signInManager.PasswordSignInAsync(user, 
+                        model.Password, 
+                        model.RememberMe, 
+                        false);
                     if (result.Succeeded)
                     {
-                        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                        if (!string.IsNullOrEmpty(model.ReturnUrl)
+                            && Url.IsLocalUrl(model.ReturnUrl))
                         {
                             return Redirect(model.ReturnUrl);
                         }
@@ -91,7 +99,8 @@ namespace userAuth.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "The account name or password is incorrect.");
+                        ModelState.AddModelError("",
+                            "The account name or password is incorrect.");
                     }
                 }
             }
