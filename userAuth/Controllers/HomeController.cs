@@ -28,6 +28,11 @@ namespace userAuth.Controllers
 
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View(_table);
         }
 
@@ -59,6 +64,7 @@ namespace userAuth.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+
         [HttpPost]
         public async Task<ActionResult> Block(List<TableViewModel> model)
         {
@@ -81,7 +87,7 @@ namespace userAuth.Controllers
                     await _homeManager.UpdateAsync(user);
                 }
             }
-            
+
             return RedirectToAction("Login", "Account");
         }
 
